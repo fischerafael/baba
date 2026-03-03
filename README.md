@@ -79,14 +79,15 @@ Detalhes completos em `docs/architecture.md`.
 ### Implementado
 - Base Next.js 14 + TypeScript + App Router.
 - UI inicial mobile-first (login, layout da área autenticada, família, settings).
+- Header interno com family switcher em dropdown, no mesmo padrão visual/comportamental do menu de perfil.
 - `GET /api/families` com dados mockados.
-- `GET/POST /api/families/[familyId]/logs` com persistência in-memory.
+- `GET/POST /api/families/[familyId]/logs` com persistência in-memory e filtro por `?day=YYYY-MM-DD`.
 - `POST /api/invites` e endpoint de aceite `POST /api/invites/[inviteId]/accept` (mock).
 
 ### Parcial (mock/protótipo)
 - Autenticação/sessão: cookie de sessão mockado via `/api/auth/session`.
 - Middleware de proteção: implementado com sessão mock (`baba_session`).
-- Timeline/FAB: base visual e rota de logs prontas, ainda sem fluxo completo com dados reais.
+- Timeline/FAB: navegação por dia via URL (`?day=YYYY-MM-DD`) e listagem consumindo a API de logs por dia.
 
 ### Não implementado ainda
 - Firebase Auth real (ID token + validação server-side).
@@ -101,7 +102,7 @@ Detalhes completos em `docs/architecture.md`.
 - [ ] Auth real com Firebase (atual: mock).
 - [x] API básica de famílias.
 - [ ] Convites ponta-a-ponta com persistência real (atual: parcial/mock).
-- [ ] Timeline ponta-a-ponta com criação por UI + dados reais (atual: parcial).
+- [ ] Timeline ponta-a-ponta com criação por UI + dados reais (navegação diária e leitura por API já implementadas).
 - [ ] Attendance robusto (regra 1 par/dia).
 - [ ] Billing Stripe.
 - [ ] Bloqueio por assinatura em toda a camada de acesso.
