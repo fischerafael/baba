@@ -82,3 +82,7 @@ Detalhes completos em `docs/architecture.md`.
 6. Integração Stripe Checkout + webhook.
 7. Bloqueio de acesso por status de assinatura.
 8. i18n PT-BR/EN e UI final mobile-first.
+
+## Execução pós-merge
+
+Plano de implementação detalhado em `docs/next-steps.md`.
