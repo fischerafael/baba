@@ -13,7 +13,7 @@ Legenda:
 - [ ] (parcial) 2) Setup de autenticação real (há sessão e middleware mock, sem Firebase Auth validado server-side).
 - [x] 3) Famílias: `GET /api/families` e seletor no header.
 - [ ] (parcial) 4) Convites e papéis: criação de convite pronta; aceite ainda mock e sem persistência durável.
-- [ ] (parcial) 5) Timeline por dia + FAB: base visual e endpoint de logs prontos; falta fechamento ponta-a-ponta com dados reais.
+- [ ] (parcial) 5) Timeline por dia + FAB: navegação por dia via URL e query de logs por `day` já implementadas; falta criação completa de logs pela UI e dados persistentes reais.
 - [ ] 6) Check-in/check-out com validação transacional de 1 par/dia.
 - [ ] 7) Billing Stripe (checkout + webhook + bloqueio por assinatura).
 - [ ] 8) i18n PT-BR/EN e acabamento UX final.
@@ -26,7 +26,7 @@ Legenda:
 | 2) Auth/session | Login válido + APIs privadas protegidas por token real | Parcial | `src/app/api/auth/session/route.ts`, `src/middleware.ts` | Trocar sessão mock por validação Firebase ID token |
 | 3) Famílias | Listagem e seleção de família no workspace | Feito | `src/app/api/families/route.ts`, `src/components/family-switcher.tsx` | Sincronizar família ativa com backend |
 | 4) Convites | Criar e aceitar convite com vínculo real em membro | Parcial | `src/app/api/invites/route.ts`, `src/app/api/invites/[inviteId]/accept/route.ts` | Persistir convite/membership no repositório e validar email autenticado |
-| 5) Timeline | Navegação por dia + criação de log por fluxo completo | Parcial | `src/app/(app)/family/[familyId]/page.tsx`, `src/components/day-navigator.tsx`, `src/app/api/families/[familyId]/logs/route.ts` | Ligar UI de criação, dados reais e validações de domínio |
+| 5) Timeline | Navegação por dia + criação de log por fluxo completo | Parcial | `src/app/(app)/family/[familyId]/page.tsx`, `src/components/day-navigator.tsx`, `src/components/activity-list.tsx`, `src/app/api/families/[familyId]/logs/route.ts` | Concluir criação de logs pela UI e persistência real (Firestore) |
 
 ## Início técnico obrigatório (próximos steps)
 
@@ -89,6 +89,7 @@ Subir a primeira versão utilizável com:
 ### 5) Timeline por dia
 - Navegação de data (esquerda/direita).
 - Query por `dayKey` em timezone SP.
+- URL como fonte de verdade (`/family/:familyId?day=YYYY-MM-DD`) para deep-link e refresh estável.
 - FAB com bottom-sheet de tipos de atividade.
 
 ### 6) Check-in/check-out
@@ -97,6 +98,8 @@ Subir a primeira versão utilizável com:
 - Babysitter cria e visualiza; não apaga.
 
 **Definition of Done**
+- URL atualiza ao navegar entre dias (`?day=YYYY-MM-DD`).
+- Cada mudança de dia refaz consulta de logs para o dia selecionado.
 - Bloqueio de segundo check-in no mesmo dia para mesma babysitter.
 - Histórico navegável por dia funcionando.
 

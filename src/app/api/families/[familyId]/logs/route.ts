@@ -1,14 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { logs } from "@/lib/mock-db";
-import { toDayKeySP } from "@/lib/timezone";
+import { isValidDayKey, toDayKeySP } from "@/lib/timezone";
 import type { ActivityLog } from "@/types/domain";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { familyId: string } }
 ) {
-  const day = request.nextUrl.searchParams.get("day") ?? toDayKeySP();
-  const data = logs.filter((log) => log.familyId === params.familyId && log.dayKey === day);
+  const requestedDay = request.nextUrl.searchParams.get("day");
+  const day = requestedDay && isValidDayKey(requestedDay) ? requestedDay : toDayKeySP();
+
+  const data = logs
+    .filter((log) => log.familyId === params.familyId && log.dayKey === day)
+    .sort((a, b) => a.id.localeCompare(b.id));
 
   return NextResponse.json({ data, day });
 }

@@ -210,6 +210,8 @@ Base: `/api`
 ### Logs
 - `GET /families/:familyId/logs?day=YYYY-MM-DD`
   - Retorna logs do dia (timezone SP).
+  - Se `day` ausente/inválido, backend assume o dia atual em `America/Sao_Paulo`.
+  - A tela de timeline usa `day` na URL como fonte de verdade para permitir deep-link e refresh.
 - `POST /families/:familyId/logs`
   - Cria log comum ou de check-in/out.
   - Se `activityKind=checkin/checkout`, atualiza `attendance` numa transação.
@@ -359,3 +361,15 @@ Como o banco ainda não está conectado, os dados permanecem em memória, mas **
 
 ### Fase 4
 - i18n PT-BR/EN + refinamento UX minimalista.
+
+
+## 11) Decisões de UX implementadas
+
+- Header interno: o seletor de família (esquerda) segue o mesmo padrão de interação do menu de perfil (direita), com trigger em superfície, dropdown e ações em lista.
+- Timeline diária: a data atual da visão fica na query string (`?day=YYYY-MM-DD`), e a navegação anterior/próximo altera essa URL para disparar nova consulta de logs.
+- Componentes-chave do fluxo:
+  - `src/components/family-switcher.tsx` (seleção de família + atalho para settings da família ativa)
+  - `src/components/day-navigator.tsx` (navegação anterior/próximo com links por dia)
+  - `src/components/activity-list.tsx` (consulta da API de logs por família/dia)
+  - `src/app/(app)/family/[familyId]/page.tsx` (orquestra família + dia da URL)
+  - `src/app/api/families/[familyId]/logs/route.ts` (contrato de leitura e fallback de `day`)
