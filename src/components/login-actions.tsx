@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export function LoginActions() {
   const [loading, setLoading] = useState(false);
@@ -15,8 +16,8 @@ export function LoginActions() {
   }
 
   return (
-    <button className="btn btn-primary" disabled={loading} onClick={handleMockLogin}>
+    <Button className="shadow-glow" disabled={loading} onClick={handleMockLogin}>
       {loading ? "Entrando..." : "Continuar com Email (mock)"}
-    </button>
+    </Button>
   );
 }
