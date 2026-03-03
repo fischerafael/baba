@@ -119,6 +119,12 @@ Detalhes completos em `docs/architecture.md`.
 7. Bloqueio de acesso por status de assinatura.
 8. i18n PT-BR/EN e UI final mobile-first.
 
+## Guias novos
+
+- `docs/nextjs-use-client-guide.md`: troubleshooting e boas práticas para `"use client"` no App Router.
+- `skills/nextjs-use-client/`: skill focada em corrigir erros de boundary Server/Client.
+- `skills/nextjs-best-practices/`: skill de arquitetura e padrões gerais de Next.js.
+
 ## Execução pós-merge
 
 Plano de implementação detalhado em `docs/next-steps.md`.

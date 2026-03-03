@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const families = [
   { id: "demo-family", name: "Família Demo" },
@@ -6,6 +9,8 @@ const families = [
 ];
 
 export function FamilySwitcher() {
+  const router = useRouter();
+
   return (
     <div className="card" style={{ padding: "8px 10px", borderRadius: 12 }}>
       <label style={{ fontSize: 12 }} className="muted">Família</label>
@@ -13,7 +18,7 @@ export function FamilySwitcher() {
         defaultValue={families[0].id}
         style={{ background: "transparent", color: "white", border: 0, display: "block", marginTop: 4 }}
         onChange={(event) => {
-          window.location.href = `/family/${event.target.value}`;
+          router.push(`/family/${event.target.value}`);
         }}
       >
         {families.map((family) => (
