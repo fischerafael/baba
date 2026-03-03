@@ -2,6 +2,42 @@
 
 Este documento transforma a arquitetura em execução prática, com foco em entregar MVP rápido e sem retrabalho.
 
+## Checklist de execução (status revisado)
+
+Legenda:
+- `[x]` concluído
+- `[ ]` em aberto
+- `[ ] (parcial)` iniciado, mas ainda sem atingir DoD
+
+- [x] 1) Bootstrap do projeto (Next.js + TypeScript + App Router + libs base).
+- [ ] (parcial) 2) Setup de autenticação real (há sessão e middleware mock, sem Firebase Auth validado server-side).
+- [x] 3) Famílias: `GET /api/families` e seletor no header.
+- [ ] (parcial) 4) Convites e papéis: criação de convite pronta; aceite ainda mock e sem persistência durável.
+- [ ] (parcial) 5) Timeline por dia + FAB: base visual e endpoint de logs prontos; falta fechamento ponta-a-ponta com dados reais.
+- [ ] 6) Check-in/check-out com validação transacional de 1 par/dia.
+- [ ] 7) Billing Stripe (checkout + webhook + bloqueio por assinatura).
+- [ ] 8) i18n PT-BR/EN e acabamento UX final.
+
+## Revisão de DoD com evidências
+
+| Tarefa | DoD resumido | Status | Evidência no código | Pendência para concluir |
+|---|---|---|---|---|
+| 1) Bootstrap | Projeto sobe, stack base definida | Feito | `package.json`, estrutura em `src/app` | N/A |
+| 2) Auth/session | Login válido + APIs privadas protegidas por token real | Parcial | `src/app/api/auth/session/route.ts`, `src/middleware.ts` | Trocar sessão mock por validação Firebase ID token |
+| 3) Famílias | Listagem e seleção de família no workspace | Feito | `src/app/api/families/route.ts`, `src/components/family-switcher.tsx` | Sincronizar família ativa com backend |
+| 4) Convites | Criar e aceitar convite com vínculo real em membro | Parcial | `src/app/api/invites/route.ts`, `src/app/api/invites/[inviteId]/accept/route.ts` | Persistir convite/membership no repositório e validar email autenticado |
+| 5) Timeline | Navegação por dia + criação de log por fluxo completo | Parcial | `src/app/(app)/family/[familyId]/page.tsx`, `src/components/day-navigator.tsx`, `src/app/api/families/[familyId]/logs/route.ts` | Ligar UI de criação, dados reais e validações de domínio |
+
+## Início técnico obrigatório (próximos steps)
+
+1. Introduzir arquitetura **ports and adapters** nas APIs novas e existentes.
+2. Criar camada de **repositórios** como abstração de acesso a dados.
+3. Manter implementação `in-memory` no curto prazo.
+4. Preparar implementação paralela `firestore` com as mesmas interfaces.
+5. Garantir que rotas HTTP chamem use cases (sem regra de negócio embutida em `route.ts`).
+
+---
+
 ## Objetivo imediato
 
 Subir a primeira versão utilizável com:

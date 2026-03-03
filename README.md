@@ -72,6 +72,42 @@ src/
 
 Detalhes completos em `docs/architecture.md`.
 
+## Status atual de implementação
+
+> **Importante:** este repositório ainda está em fase de construção. A seção de arquitetura descreve o alvo de MVP; o status real de entrega está nesta seção.
+
+### Implementado
+- Base Next.js 14 + TypeScript + App Router.
+- UI inicial mobile-first (login, layout da área autenticada, família, settings).
+- `GET /api/families` com dados mockados.
+- `GET/POST /api/families/[familyId]/logs` com persistência in-memory.
+- `POST /api/invites` e endpoint de aceite `POST /api/invites/[inviteId]/accept` (mock).
+
+### Parcial (mock/protótipo)
+- Autenticação/sessão: cookie de sessão mockado via `/api/auth/session`.
+- Middleware de proteção: implementado com sessão mock (`baba_session`).
+- Timeline/FAB: base visual e rota de logs prontas, ainda sem fluxo completo com dados reais.
+
+### Não implementado ainda
+- Firebase Auth real (ID token + validação server-side).
+- Firestore conectado com repositórios concretos.
+- Billing Stripe (checkout + webhook + bloqueio por assinatura).
+- Attendance transacional (1 par check-in/out por dia por babysitter).
+- i18n real PT-BR/EN.
+
+## Checklist macro (base para próximos steps)
+
+- [x] Fundamentos do app (scaffold + UI base).
+- [ ] Auth real com Firebase (atual: mock).
+- [x] API básica de famílias.
+- [ ] Convites ponta-a-ponta com persistência real (atual: parcial/mock).
+- [ ] Timeline ponta-a-ponta com criação por UI + dados reais (atual: parcial).
+- [ ] Attendance robusto (regra 1 par/dia).
+- [ ] Billing Stripe.
+- [ ] Bloqueio por assinatura em toda a camada de acesso.
+- [ ] i18n PT-BR/EN final.
+
+
 ## Próximos passos (MVP)
 
 1. Bootstrap Next.js + Firebase Admin e client SDK.

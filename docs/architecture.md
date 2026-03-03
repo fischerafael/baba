@@ -223,7 +223,70 @@ Base: `/api`
 - `POST /billing/webhook`
   - Processa `checkout.session.completed`, `invoice.paid`, `invoice.payment_failed`, `customer.subscription.updated/deleted`.
 
-## 4) Fluxos críticos
+## 3) Arquitetura da API: Ports and Adapters (desacoplamento de rotas e use cases)
+
+### Diretriz
+As rotas HTTP (`route.ts`) **não** devem conter regra de negócio nem acesso direto a banco. Elas atuam como adaptadores de entrada (HTTP adapters):
+1. Validam entrada/saída.
+2. Montam contexto (usuário autenticado, família ativa, locale/timezone).
+3. Chamam um **use case** via porta.
+4. Traduzem resultado/erros para HTTP status e payload.
+
+### Camadas propostas
+
+```txt
+src/
+  modules/
+    <dominio>/
+      application/
+        use-cases/
+      domain/
+        entities/
+        services/
+      ports/
+        repositories/
+        gateways/
+      adapters/
+        http/           # mapeamento request/response (opcional)
+        persistence/
+          in-memory/
+          firestore/
+```
+
+### Portas principais (exemplo)
+- `FamilyRepositoryPort`
+- `InviteRepositoryPort`
+- `ActivityLogRepositoryPort`
+- `AttendanceRepositoryPort`
+- `SubscriptionRepositoryPort`
+
+### Exemplo de fluxo
+`POST /api/families/:familyId/logs`:
+- Route handler recebe payload.
+- Chama `CreateActivityLogUseCase`.
+- Use case depende de `ActivityLogRepositoryPort` e `AttendanceRepositoryPort`.
+- Adapter in-memory (hoje) implementa as portas.
+- Adapter Firestore (futuro) substitui implementação sem quebrar use case/rota.
+
+## 4) Camada de repositório (abstração de dados)
+
+### Decisão
+Como o banco ainda não está conectado, os dados permanecem em memória, mas **atrás de interfaces de repositório** para troca fácil por Firestore.
+
+### Estratégia de implementação incremental
+1. Criar interfaces de repositório em `modules/*/ports/repositories`.
+2. Migrar handlers para chamar use cases.
+3. Injetar implementação in-memory (composition root simples).
+4. Criar adapters Firestore com a mesma assinatura.
+5. Trocar injeção por ambiente (`MEMORY`/`FIRESTORE`) sem alterar regras de negócio.
+
+### Benefícios imediatos
+- Isolamento da regra de negócio.
+- Menor acoplamento com framework/banco.
+- Testes unitários rápidos com doubles/fakes.
+- Migração controlada para Firestore.
+
+## 5) Fluxos críticos
 
 ### 4.1 Onboarding do owner
 1. Login Firebase.
@@ -247,7 +310,7 @@ Base: `/api`
 5. Criação do log (`observations` opcional).
 6. Para check-in/out, valida regra 1 par/dia/babysitter.
 
-## 5) UI/UX (mobile-first)
+## 6) UI/UX (mobile-first)
 
 - Header compacto:
   - Seletor de família.
@@ -264,14 +327,14 @@ Base: `/api`
 - Billing:
   - Status da assinatura, botão para atualizar pagamento.
 
-## 6) Índices Firestore sugeridos
+## 7) Índices Firestore sugeridos
 
 - `families/{familyId}/logs` por `dayKey ASC, occurredAt DESC`
 - `invites` por `email ASC, status ASC, createdAt DESC`
 - `families` via members (consultar por `members/{userId}`)
 - `attendance` por `dayKey ASC, userId ASC`
 
-## 7) Estratégia de teste
+## 8) Estratégia de teste
 
 - Unit:
   - validação RBAC
@@ -283,7 +346,7 @@ Base: `/api`
 - E2E (Playwright):
   - login -> seleção família -> criar log -> navegar dias
 
-## 8) MVP por fases
+## 9) MVP por fases
 
 ### Fase 1
 - Auth + famílias + membros + convites + timeline básica.
