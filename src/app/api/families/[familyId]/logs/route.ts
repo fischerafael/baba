@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { logs } from "@/lib/mock-db";
 import { toDayKeySP } from "@/lib/timezone";
+import type { ActivityLog } from "@/types/domain";
 
 export async function GET(
   request: NextRequest,
@@ -26,7 +27,7 @@ export async function POST(
     return NextResponse.json({ error: "titleSnapshot e activityKind são obrigatórios." }, { status: 400 });
   }
 
-  const created = {
+  const created: ActivityLog = {
     id: String(logs.length + 1),
     familyId: params.familyId,
     activityKind: body.activityKind,

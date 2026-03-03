@@ -1,8 +1,9 @@
 import { toDayKeySP } from "@/lib/timezone";
+import type { ActivityLog } from "@/types/domain";
 
 const dayKey = toDayKeySP();
 
-export const logs = [
+export const logs: ActivityLog[] = [
   {
     id: "1",
     familyId: "demo-family",
