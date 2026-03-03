@@ -1,19 +1,21 @@
+import { Card } from "@/components/ui/card";
+
 export default function SettingsPage() {
   return (
-    <section style={{ display: "grid", gap: 12 }}>
-      <h2 style={{ margin: 0 }}>Settings da família</h2>
-      <article className="card">
-        <h3 style={{ marginTop: 0 }}>Crianças</h3>
-        <p className="muted">Adicionar nome e data de nascimento.</p>
-      </article>
-      <article className="card">
-        <h3 style={{ marginTop: 0 }}>Tipos de atividade</h3>
-        <p className="muted">Brincar, Ler, Check-in, Check-out e outros customizados.</p>
-      </article>
-      <article className="card">
-        <h3 style={{ marginTop: 0 }}>Membros e convites</h3>
-        <p className="muted">Disponível para owner/member. Babysitter não acessa esta tela.</p>
-      </article>
+    <section className="grid gap-3">
+      <h2 className="m-0 text-3xl font-bold">Settings da família</h2>
+      <Card className="grid gap-1 p-4">
+        <h3 className="m-0 text-xl">Crianças</h3>
+        <p className="m-0 text-sm text-muted">Adicionar nome e data de nascimento.</p>
+      </Card>
+      <Card className="grid gap-1 p-4">
+        <h3 className="m-0 text-xl">Tipos de atividade</h3>
+        <p className="m-0 text-sm text-muted">Brincar, Ler, Check-in, Check-out e outros customizados.</p>
+      </Card>
+      <Card className="grid gap-1 p-4">
+        <h3 className="m-0 text-xl">Membros e convites</h3>
+        <p className="m-0 text-sm text-muted">Disponível para owner/member. Babysitter não acessa esta tela.</p>
+      </Card>
     </section>
   );
 }

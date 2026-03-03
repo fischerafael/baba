@@ -1,13 +1,19 @@
 import { FamilySwitcher } from "@/components/family-switcher";
+import { UserMenu } from "@/components/ui/user-menu";
+import { Card } from "@/components/ui/card";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="container" style={{ paddingBottom: 80 }}>
-      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+    <main className="mx-auto min-h-screen w-[min(1120px,calc(100vw-2rem))] py-4">
+      <header className="mb-4 flex items-center justify-between rounded-2xl border border-border bg-surface p-4">
         <FamilySwitcher />
-        <span className="muted" style={{ fontSize: 13 }}>PT-BR / EN</span>
+        <UserMenu />
       </header>
-      {children}
+
+      <Card className="grid gap-4 p-4">
+        <p className="text-sm text-muted">Área útil</p>
+        {children}
+      </Card>
     </main>
   );
 }

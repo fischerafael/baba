@@ -12,26 +12,25 @@ export function FamilySwitcher() {
   const router = useRouter();
 
   return (
-    <div className="card" style={{ padding: "8px 10px", borderRadius: 12 }}>
-      <label style={{ fontSize: 12 }} className="muted">Família</label>
+    <div className="grid gap-1">
+      <label className="text-xs text-muted" htmlFor="family-select">
+        Família
+      </label>
       <select
+        id="family-select"
+        className="rounded-lg border border-border bg-secondary px-2 py-1 text-sm"
         defaultValue={families[0].id}
-        style={{ background: "transparent", color: "white", border: 0, display: "block", marginTop: 4 }}
-        onChange={(event) => {
-          router.push(`/family/${event.target.value}`);
-        }}
+        onChange={(event) => router.push(`/family/${event.target.value}`)}
       >
         {families.map((family) => (
-          <option key={family.id} value={family.id} style={{ color: "black" }}>
+          <option key={family.id} value={family.id}>
             {family.name}
           </option>
         ))}
       </select>
-      <div style={{ marginTop: 6 }}>
-        <Link className="muted" style={{ fontSize: 12 }} href="/family/demo-family/settings">
-          Gerenciar
-        </Link>
-      </div>
+      <Link className="text-xs text-muted hover:text-white" href="/family/demo-family/settings">
+        Gerenciar
+      </Link>
     </div>
   );
 }
