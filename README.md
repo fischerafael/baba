@@ -125,6 +125,7 @@ Detalhes completos em `docs/architecture.md`.
 - `docs/nextjs-use-client-guide.md`: troubleshooting e boas práticas para `"use client"` no App Router.
 - `skills/nextjs-use-client/`: skill focada em corrigir erros de boundary Server/Client.
 - `skills/nextjs-best-practices/`: skill de arquitetura e padrões gerais de Next.js.
+- `docs/frontend-high-level.md`: visão de alto nível do front-end atual (escopo, estrutura e limitações).
 
 ## Execução pós-merge
 
